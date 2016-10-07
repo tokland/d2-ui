@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 class TreeView extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +12,13 @@ class TreeView extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    componentWillReceiveProps(newProps) {
+        // When initiallyExpanded status changed and the tree is collapsed we fire a toggleEvent to open it up
+        if (newProps.initiallyExpanded && this.state.collapsed) {
+            this.toggleCollapsed();
+        }
+    }
+
     toggleCollapsed() {
         this.setState(state => ({
             collapsed: !state.collapsed,
@@ -22,13 +28,6 @@ class TreeView extends React.Component {
                 this.props.onExpand();
             }
         });
-    }
-
-    componentWillReceiveProps(newProps) {
-        // When initiallyExpanded status changed and the tree is collapsed we fire a toggleEvent to open it up
-        if (newProps.initiallyExpanded && this.state.collapsed) {
-            this.toggleCollapsed();
-        }
     }
 
     handleClick(e) {

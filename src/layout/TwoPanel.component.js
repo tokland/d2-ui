@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { isArray } from 'lodash/fp';
 import log from 'loglevel';
 
 function TwoPanelSelector(props) {
-    const {children, childWrapStyle, sizeRatio, ...otherProps} = props;
+    const { children, childWrapStyle, sizeRatio, ...otherProps } = props;
     const styles = {
         mainStyle: {
             flex: 1,
@@ -49,6 +49,13 @@ function TwoPanelSelector(props) {
         </main>
     );
 }
+
+TwoPanelSelector.propTypes = {
+    children: PropTypes.arrayOf(React.PropTypes.node),
+    childWrapStyle: PropTypes.object,
+    sizeRatio: PropTypes.array,
+};
+
 TwoPanelSelector.defaultProps = {
     sizeRatio: ['0 0 320px', 1],
     children: [],

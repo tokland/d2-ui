@@ -211,6 +211,8 @@ OrgUnitTree.propTypes = {
      */
     arrowSymbol: React.PropTypes.string,
     emitModel: React.PropTypes.bool,
+
+    idsThatShouldBeReloaded: React.PropTypes.arrayOf(React.PropTypes.string),
 };
 
 OrgUnitTree.defaultProps = {

@@ -98,7 +98,7 @@ const Sidebar = React.createClass({
         if (props.searchText && props.searchText !== this.state.searchText) {
             this.setState({ searchText: props.searchText }, () => {
                 this.changeSearchText();
-            })
+            });
         }
     },
 

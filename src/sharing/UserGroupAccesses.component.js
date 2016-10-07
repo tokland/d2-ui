@@ -15,33 +15,29 @@ export default createClass({
     },
 
     render() {
-        const onChange = (currentItem) => { // eslint-ignore-line
-            return (newAccessMask) => {
-                const modifiedUserGroupAccesses = this.props.userGroupAccesses
-                    .map(item => Object.assign({}, item))
-                    .map(item => {
-                        if (item.id === currentItem.id) {
-                            item.access = newAccessMask;
-                        }
-                        return item;
-                    });
+        const onChange = (currentItem) => (newAccessMask) => {
+            const modifiedUserGroupAccesses = this.props.userGroupAccesses
+                .map(item => Object.assign({}, item))
+                .map(item => {
+                    if (item.id === currentItem.id) {
+                        item.access = newAccessMask; //eslint-disable-line
+                    }
+                    return item;
+                });
 
-                this.props.onChange(modifiedUserGroupAccesses);
-            };
+            this.props.onChange(modifiedUserGroupAccesses);
         };
 
         return (
             <div>
-                {this.props.userGroupAccesses.map(item => {
-                    return (
-                        <AccessMaskSwitches
-                            accessMask={item.access}
-                            name={item.name}
-                            label={item.name}
-                            onChange={onChange(item)}
-                        />
-                    );
-                })}
+                {this.props.userGroupAccesses.map(item => (
+                    <AccessMaskSwitches
+                        accessMask={item.access}
+                        name={item.name}
+                        label={item.name}
+                        onChange={onChange(item)}
+                    />
+                ))}
             </div>
         );
     },

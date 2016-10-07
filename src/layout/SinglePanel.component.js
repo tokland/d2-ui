@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { isArray } from 'lodash/fp';
 import log from 'loglevel';
 
@@ -30,5 +30,9 @@ function SinglePanel(props) {
         </main>
     );
 }
+
+SinglePanel.propTypes = {
+    children: PropTypes.node,
+};
 
 export default SinglePanel;

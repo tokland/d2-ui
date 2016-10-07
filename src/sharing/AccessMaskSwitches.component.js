@@ -47,6 +47,27 @@ export default createClass({
         }
     },
 
+    setView() {
+        this.setState({
+            view: !this.state.view,
+        }, () => this.onChange());
+    },
+
+    setEdit() {
+        this.setState({
+            view: true,
+            edit: !this.state.edit,
+        }, () => this.onChange());
+    },
+
+    hasEdit() {
+        return /^rw/.test(this.props.accessMask);
+    },
+
+    hasView() {
+        return /^r/.test(this.props.accessMask);
+    },
+
     render() {
         const style = Object.assign({
             marginTop: '.5rem',
@@ -58,53 +79,32 @@ export default createClass({
             <div style={style} classnName="sharing--access-mask-switches">
                 <div>{this.props.label}</div>
                 <ClearFix>
-                <Toggle
-                    style={{
-                        width: '40%',
-                        float: 'left',
-                    }}
-                    ref="toggleView"
-                    name={`${this.props.name}View`}
-                    label={this.getTranslation('can_view')}
-                    checked={this.hasView()}
-                    onToggle={this.setView}
-                    disabled={this.props.disabled || this.hasEdit()}
+                    <Toggle
+                        style={{
+                            width: '40%',
+                            float: 'left',
+                        }}
+                        ref="toggleView"
+                        name={`${this.props.name}View`}
+                        label={this.getTranslation('can_view')}
+                        checked={this.hasView()}
+                        onToggle={this.setView}
+                        disabled={this.props.disabled || this.hasEdit()}
                     />
-                <Toggle
-                    style={{
-                        width: '40%',
-                        float: 'right',
-                    }}
-                    ref="toggleEdit"
-                    name={`${this.props.name}Edit`}
-                    label={this.getTranslation('can_edit')}
-                    checked={this.hasEdit()}
-                    onToggle={this.setEdit}
-                    disabled={this.props.disabled}
-                />
+                    <Toggle
+                        style={{
+                            width: '40%',
+                            float: 'right',
+                        }}
+                        ref="toggleEdit"
+                        name={`${this.props.name}Edit`}
+                        label={this.getTranslation('can_edit')}
+                        checked={this.hasEdit()}
+                        onToggle={this.setEdit}
+                        disabled={this.props.disabled}
+                    />
                 </ClearFix>
             </div>
         );
-    },
-
-    hasView() {
-        return /^r/.test(this.props.accessMask);
-    },
-
-    setView() {
-        this.setState({
-            view: !this.state.view,
-        }, () => this.onChange());
-    },
-
-    hasEdit() {
-        return /^rw/.test(this.props.accessMask);
-    },
-
-    setEdit() {
-        this.setState({
-            view: true,
-            edit: !this.state.edit,
-        }, () => this.onChange());
     },
 });

@@ -18,7 +18,7 @@ export default createClass({
                 onChange={this.props.onChange}
                 name="publicAccess"
                 disabled={this.props.disabled}
-                />
+            />
         );
     },
 });

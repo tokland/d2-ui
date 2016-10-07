@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ListSelect from './ListSelect.component';
 import { Observable } from 'rx';
 import log from 'loglevel';
 
 const ListSelectAsync = React.createClass({
     propTypes: {
-        source: React.PropTypes.instanceOf(Observable),
-        onItemDoubleClick: React.PropTypes.func.isRequired,
-        listStyle: React.PropTypes.object,
+        source: PropTypes.instanceOf(Observable),
+        onItemDoubleClick: PropTypes.func.isRequired,
+        listStyle: PropTypes.object,
     },
 
     getInitialState() {
@@ -29,16 +29,19 @@ const ListSelectAsync = React.createClass({
     },
 
     componentWillUnmount() {
-        this.disposable && this.disposable.dispose();
+        if (this.disposable) {
+            this.disposable.dispose();
+        }
     },
 
     render() {
         return (
-            <ListSelect {...this.props}
-                        onItemDoubleClick={this.props.onItemDoubleClick}
-                        source={this.state.listSource}
-                        listStyle={this.props.listStyle}
-                />
+            <ListSelect
+                {...this.props}
+                onItemDoubleClick={this.props.onItemDoubleClick}
+                source={this.state.listSource}
+                listStyle={this.props.listStyle}
+            />
         );
     },
 });

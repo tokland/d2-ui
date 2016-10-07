@@ -17,11 +17,16 @@ export default createClass({
 
     mixins: [Translate],
 
+    closeSharingDialog() {
+        this.props.onRequestClose(sharingStore.getState());
+    },
+
     render() {
         const sharingDialogActions = [
             <FlatButton
                 label={this.getTranslation('close')}
-                onClick={this.closeSharingDialog} />,
+                onClick={this.closeSharingDialog}
+            />,
         ];
 
         return (
@@ -36,9 +41,5 @@ export default createClass({
                 <Sharing objectToShare={this.props.objectToShare} />
             </Dialog>
         );
-    },
-
-    closeSharingDialog() {
-        this.props.onRequestClose(sharingStore.getState());
     },
 });

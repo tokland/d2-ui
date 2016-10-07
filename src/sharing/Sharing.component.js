@@ -49,7 +49,25 @@ export default createClass({
     },
 
     componentWillUnmount() {
-        this.disposable && this.disposable.dispose();
+        if (this.disposable) {
+            this.disposable.dispose();
+        }
+    },
+
+    addUserGroup(userGroup) {
+        sharingActions.userGroupAcessesChanged(this.state.objectToShare.userGroupAccesses.concat(userGroup));
+    },
+
+    updateUserGroupAccesses(userGroupAccesses) {
+        sharingActions.userGroupAcessesChanged(userGroupAccesses);
+    },
+
+    updatePublicAccess(publicAccessValue) {
+        sharingActions.publicAccessChanged(publicAccessValue);
+    },
+
+    updatedExternalAccess(externalAccessValue) {
+        sharingActions.externalAccessChanged(externalAccessValue);
     },
 
     render() {
@@ -69,13 +87,9 @@ export default createClass({
             };
         }
 
-        const canSetExternalAccess = () => {
-            return Boolean(this.state.objectToShare.meta && this.state.objectToShare.meta.allowExternalAccess);
-        };
+        const canSetExternalAccess = () => Boolean(this.state.objectToShare.meta && this.state.objectToShare.meta.allowExternalAccess);
 
-        const canSetPublicAccess = () => {
-            return Boolean(this.state.objectToShare.meta && this.state.objectToShare.meta.allowPublicAccess);
-        };
+        const canSetPublicAccess = () => Boolean(this.state.objectToShare.meta && this.state.objectToShare.meta.allowPublicAccess);
 
         // TODO: Is it true that the user should not be able to see externalAccess when he/she can not set it?
         const getExternalAccessValue = () => {
@@ -90,9 +104,10 @@ export default createClass({
                 <Heading text={this.props.objectToShare.name} level={2} />
                 <CreatedBy user={this.state.objectToShare.user} />
                 <div>
-                    <AutoComplete forType="userGroup"
-                      onSuggestionClicked={this.addUserGroup}
-                      filterForSuggestions={doesNotContainItemWithId(this.state.objectToShare.userGroupAccesses)}
+                    <AutoComplete
+                        forType="userGroup"
+                        onSuggestionClicked={this.addUserGroup}
+                        filterForSuggestions={doesNotContainItemWithId(this.state.objectToShare.userGroupAccesses)}
                     />
                 </div>
                 <ExternalAccess disabled={!canSetExternalAccess()} externalAccess={getExternalAccessValue()} onChange={this.updatedExternalAccess} />
@@ -100,21 +115,5 @@ export default createClass({
                 <UserGroupAccesses userGroupAccesses={this.state.objectToShare.userGroupAccesses} onChange={this.updateUserGroupAccesses} />
             </div>
         );
-    },
-
-    addUserGroup(userGroup) {
-        sharingActions.userGroupAcessesChanged(this.state.objectToShare.userGroupAccesses.concat(userGroup));
-    },
-
-    updateUserGroupAccesses(userGroupAccesses) {
-        sharingActions.userGroupAcessesChanged(userGroupAccesses);
-    },
-
-    updatePublicAccess(publicAccessValue) {
-        sharingActions.publicAccessChanged(publicAccessValue);
-    },
-
-    updatedExternalAccess(externalAccessValue) {
-        sharingActions.externalAccessChanged(externalAccessValue);
     },
 });

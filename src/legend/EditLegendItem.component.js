@@ -25,16 +25,15 @@ function isCloseDisabled(isValid) {
     return !isValid;
 }
 
-// props, context
-export function EditLegendItem({ fieldConfigs = [], open = false, onItemUpdate, isValid}, { d2 }) {
+export function EditLegendItem({ fieldConfigs = [], open = false, onItemUpdate, isValid }, { d2 }) {
     const onCancel = () => {
         setDialogStateToAction(false);
-    }
+    };
 
     const onClose = () => {
         setDialogStateToAction(false);
         onItemUpdate();
-    }
+    };
 
     const actions = [
         <FlatButton
@@ -69,6 +68,14 @@ export function EditLegendItem({ fieldConfigs = [], open = false, onItemUpdate, 
         </Dialog>
     );
 }
+
+EditLegendItem.propTypes = {
+    fieldConfigs: PropTypes.array,
+    open: PropTypes.bool,
+    onItemUpdate: PropTypes.func.isRequired,
+    isValid: PropTypes.bool,
+};
+
 EditLegendItem.contextTypes = {
     d2: PropTypes.object,
 };

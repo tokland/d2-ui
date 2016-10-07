@@ -21,9 +21,11 @@ export default function ListSelect(props) {
         </option>
     ));
 
+    const style = Object.assign({ overflowX: 'auto' }, props.listStyle);
+
     return (
         <div className="list-select">
-            <select size={props.size || 15} style={Object.assign({overflowX: 'auto'}, props.listStyle)}>
+            <select size={props.size || 15} style={style}>
                 {options}
             </select>
         </div>
