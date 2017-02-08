@@ -2,10 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import styles from '../header-bar-styles';
 import { search, setSearchFieldFocusTo } from '../search/search.stores';
 
-const onMouseUp = (link) => () => {
+const onMouseUp = () => () => {
     search('');
     setSearchFieldFocusTo(false);
-    window.location = link;
 };
 
 export default class HeaderMenuItem extends Component {
