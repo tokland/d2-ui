@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "examples": "npm run start",
-    "coverage": "NODE_ENV=test nyc --require babel-register --require babel-polyfill mocha --reporter dot --require config/setup.js --recursive test/ && nyc report --reporter=lcov",
+    "coverage": "NODE_ENV=test nyc --require babel-register --require babel-polyfill mocha --reporter dot --compilers css:./config/css-compiler.js --require config/setup.js --recursive test/ && nyc report --reporter=lcov",
     "start": "webpack-dev-server",
-    "test": "BABEL_ENV=test mocha --reporter spec --compilers js:babel-core/register --require config/setup.js --recursive test",
+    "test": "BABEL_ENV=test mocha --reporter spec --compilers css:./config/compiler.js --require config/setup.js --recursive test",
     "test-watch": "npm run test -- --watch",
     "lint": "eslint src && eslint --env node,mocha --global expect,sinon --rule 'no-unused-expressions: 0' test && scss-lint",
     "prebuild": "npm run validate && npm test",
@@ -69,7 +69,10 @@
     "webpack-dev-server": "2.1.0-beta.9",
     "webpack-visualizer-plugin": "^0.1.5"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@material/card": "^0.1.3",
+    "chai-enzyme": "^0.6.1"
+  },
   "pre-commit": [
     "validate",
     "test"
