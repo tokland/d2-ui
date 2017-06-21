@@ -18,12 +18,27 @@ const style = {
 style.button1 = Object.assign({}, style.button, { marginLeft: 0 });
 
 
+function filterWithParentSelected(orgUnits) {
+    return orgUnits.filter(newOrgUnitItem => {
+        return this.props.selected.some(selectedPath => {
+            return newOrgUnitItem.path &&
+                   newOrgUnitItem.path !== selectedPath &&
+                   newOrgUnitItem.path.indexOf(selectedPath) !== -1;
+        });
+    });
+}
+
 function addToSelection(orgUnits) {
     const orgUnitArray = Array.isArray(orgUnits) ? orgUnits : orgUnits.toArray();
     const addedOus = orgUnitArray
         .filter(ou => !this.props.selected.includes(ou.path));
 
     this.props.onUpdateSelection(this.props.selected.concat(addedOus.map(ou => ou.path)));
+}
+
+function addToSelectionWithIntersection(orgUnits) {
+    const orgUnitsWithParentSelected = this.filterWithParentSelected(orgUnits);
+    this.addToSelection(orgUnitsWithParentSelected);
 }
 
 function removeFromSelection(orgUnits) {
@@ -34,6 +49,11 @@ function removeFromSelection(orgUnits) {
     const selectedOus = this.props.selected.filter(ou => !removed.includes(ou));
 
     this.props.onUpdateSelection(selectedOus);
+}
+
+function removeFromSelectionWithIntersection(orgUnits) {
+    const orgUnitsWithParentSelected = this.filterWithParentSelected(orgUnits);
+    this.removeFromSelection(orgUnitsWithParentSelected);
 }
 
 function handleChangeSelection(event) {
@@ -80,8 +100,11 @@ function renderControls() {
 }
 
 export {
+    filterWithParentSelected,
     addToSelection,
+    addToSelectionWithIntersection,
     removeFromSelection,
+    removeFromSelectionWithIntersection,
     handleChangeSelection,
     renderDropdown,
     renderControls,
