@@ -1,7 +1,9 @@
 import React from 'react';
 import log from 'loglevel';
 
-import { addToSelection, removeFromSelection, handleChangeSelection, renderDropdown, renderControls } from './common';
+import { filterWithParentSelected, addToSelection, addToSelectionWithIntersection,
+         removeFromSelection, removeFromSelectionWithIntersection, handleChangeSelection,
+         renderDropdown, renderControls } from './common';
 
 
 class OrgUnitSelectByGroup extends React.Component {
@@ -14,8 +16,11 @@ class OrgUnitSelectByGroup extends React.Component {
         };
         this.groupCache = {};
 
+        this.filterWithParentSelected = filterWithParentSelected.bind(this);
         this.addToSelection = addToSelection.bind(this);
+        this.addToSelectionWithIntersection = addToSelectionWithIntersection.bind(this);
         this.removeFromSelection = removeFromSelection.bind(this);
+        this.removeFromSelectionWithIntersection = removeFromSelectionWithIntersection.bind(this);
         this.handleChangeSelection = handleChangeSelection.bind(this);
         this.renderControls = renderControls.bind(this);
 
@@ -73,11 +78,23 @@ class OrgUnitSelectByGroup extends React.Component {
     }
 
     handleSelect() {
-        this.getOrgUnitsForGroup(this.state.selection).then(this.addToSelection);
+        this.getOrgUnitsForGroup(this.state.selection).then(orgUnits => {
+            if (this.props.intersectionPolicy) {
+                this.addToSelectionWithIntersection(orgUnits);
+            } else {
+                this.addToSelection(orgUnits);
+            }
+        });
     }
 
     handleDeselect() {
-        this.getOrgUnitsForGroup(this.state.selection).then(this.removeFromSelection);
+        this.getOrgUnitsForGroup(this.state.selection).then(orgUnits => {
+            if (this.props.intersectionPolicy) {
+                this.removeFromSelectionWithIntersection(orgUnits);
+            } else {
+                this.removeFromSelection(orgUnits);
+            }
+        });
     }
 
     render() {
@@ -105,6 +122,9 @@ OrgUnitSelectByGroup.propTypes = {
     // Whenever the selection changes, onUpdateSelection will be called with
     // one argument: The new array of selected organisation unit paths
     onUpdateSelection: React.PropTypes.func.isRequired,
+
+    //intersectionPolicy a boolean that tells if selection must a subset of current selection or not
+    intersectionPolicy: React.PropTypes.bool,
 
     // If currentRoot is set, only org units that are descendants of the
     // current root org unit will be added to or removed from the selection

@@ -22,9 +22,10 @@ function DataTableContextMenu(props, context) {
     const cmStyle = {
         position: 'fixed',
     };
+    const popoverProps = _.pick(props, _.keys(Popover.propTypes));
     return (
         <Popover
-            {...props}
+            {...popoverProps}
             open={Boolean(props.activeItem)}
             anchorEl={props.target}
             anchorOrigin={{ horizontal: 'middle', vertical: 'center' }}
