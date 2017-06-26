@@ -26,6 +26,8 @@
   "license": "BSD-3-Clause",
   "peerDependencies": {
     "material-ui": "0.17",
+    "d3-color": "1.0.2",
+    "webpack-visualizer-plugin": "^0.1.5",
     "rxjs": "^5.2.0"
   },
   "devDependencies": {
