@@ -14,6 +14,7 @@
     "preversion": "npm run validate && npm test",
     "build": "npm run build-only",
     "build-only": "rm -rf lib/ && babel src --out-dir lib && compass compile && npm run build-stand-alone-header-bar",
+    "postinstall": "rm -rf lib/ && babel src --out-dir lib && compass compile && npm run build-stand-alone-header-bar",
     "prebuild-stand-alone-header-bar": "rm -rf dist &>/dev/null || true",
     "build-stand-alone-header-bar": "webpack -p && cp -r ./examples/external-header-bar/index.html dist",
     "validate": "npm ls --depth 0 || yarn list"
